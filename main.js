@@ -57,3 +57,7 @@ function completeDotVueExtension(filePath) {
   writeFileSync(resolve(__dirname, filePath), destTemplate, { encoding: 'utf-8' })
   console.log('done, starting next file...')
 }
+
+module.exports = {
+  completeDotVueExtension
+}
