@@ -1,35 +1,32 @@
-const { readdir } = require('fs')
+#!/usr/bin/env node
+
 const { program } = require('commander')
 const { completeDotVueExtension } = require('./main.js')
 const { resolve } = require('path/posix')
 const glob = require('glob')
 
-// program.version(require('./package.json').version)
+program.version(require('./package.json').version)
 
-// program
-//   .option('-d, --dir <dir>', 'directory to resolve')
-//   .option('-f, --file <file>', 'single file to resolve')
-// program.parse(process.argv)
+program
+  .option('-d, --dir <dir>', 'directory to resolve', '.')
+program.parse(process.argv)
 
-// const { dir, file } = program.opts()
+let { dir } = program.opts()
 
-// if (dir) {
+console.log(`scanning ${dir}`)
 
-//   process.exit(0)
-// }
-
-// if (file) {
-//   process.exit(0)
-// }
-
+if (dir) {
+  dir = resolve(process.cwd(), dir)
+  resolveDir(dir)
+}
 
 function resolveDir(dir) {
-  glob(dir + '/**/*.vue', (err, files) => {
+  console.log(dir)
+  glob(`${dir}/**/*.vue`, (err, files) => {
     if (err) {
       console.log(err)
     }
+    console.log(`scanning ${files}`)
     files.forEach(filePath => completeDotVueExtension(filePath))
   })
 }
-
-resolveDir(resolve(process.cwd(), 'admin'))

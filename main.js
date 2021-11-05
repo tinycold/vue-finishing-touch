@@ -39,7 +39,7 @@ function completeDotVueExtension(filePath) {
       const isVueCompImportDeclaration = path.node.specifiers?.find(spec => componentNames.includes(spec.local.name))
       try {
         // accessSync(resolve(BASE_PATH, componentSource))
-        if (isVueCompImportDeclaration && extname(path.node.source.value).toLowerCase() !== 'vue') {
+        if (isVueCompImportDeclaration && extname(path.node.source.value).toLowerCase() !== '.vue') {
           path.node.source.value += '.vue'
         }
       } catch (err) {
