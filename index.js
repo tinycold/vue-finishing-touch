@@ -26,7 +26,13 @@ function resolveDir(dir) {
     if (err) {
       console.log(err)
     }
-    console.log(`scanning ${files}`)
-    files.forEach(filePath => completeDotVueExtension(filePath))
+    files.forEach(filePath => {
+      try {
+        completeDotVueExtension(filePath)
+      } catch (err) {
+        console.log(`${filePath} convert error`)
+        console.log(err)
+      }
+    })
   })
 }

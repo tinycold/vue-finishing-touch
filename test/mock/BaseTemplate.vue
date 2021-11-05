@@ -3,7 +3,13 @@
 </template>
 
 <script>
-import Foo from "./Foo.vue"
+import Foo from "./Foo"
+
+const foo = () => { }
+
+const obj = { a: 1 }
+
+console.log(obj?.a)
 
 export default {
   components: {
@@ -11,7 +17,8 @@ export default {
   },
   data() {
     return {
-      msg: 'Hello World'
+      msg: 'Hello World',
+      arr: [...[1, 2, 3]]
     }
   }
 }

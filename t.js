@@ -1,8 +1,4 @@
-const glob = require('glob')
+const { completeDotVueExtension } = require('./main')
+const { resolve } = require('path')
 
-glob('/Users/xubo/opensource/vue-finishing-touch/admin/**/*.vue', (err, files) => {
-  if (err) {
-    console.log(err)
-  }
-  console.log(`scanning ${files}`)
-})
+completeDotVueExtension(resolve(process.cwd(), 'test/mock/BaseTemplate.vue'))
