@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./packages/admin/src/*"],
+      "@sukuan/*": ["./packages/sukuan/src/*"],
+      "@fdf/*": ["./packages/fdf/src/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
