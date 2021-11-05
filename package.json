@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "ast-types": "^0.14.2",
-    "path": "^0.12.7",
     "recast": "^0.20.5",
     "vue-sfc-descriptor-to-string": "^1.0.0",
     "vue-template-compiler": "^2.6.14"
