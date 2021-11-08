@@ -21,8 +21,9 @@ if (dir) {
 }
 
 function resolveDir(dir) {
-  console.log(dir)
   glob(`${dir}/**/*.vue`, (err, files) => {
+    const total = files.length
+    let failed = 0
     if (err) {
       console.log(err)
     }
@@ -30,9 +31,12 @@ function resolveDir(dir) {
       try {
         completeDotVueExtension(filePath)
       } catch (err) {
+        failed++
         console.log(`${filePath} convert error`)
         console.log(err)
       }
     })
+
+    console.log(`convert complete: ${failed} / ${total}`)
   })
 }

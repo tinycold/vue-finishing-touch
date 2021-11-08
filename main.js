@@ -3,9 +3,8 @@ const { resolve, extname } = require('path/posix')
 const { parseComponent } = require('vue-template-compiler')
 const { parse, print } = require('recast')
 const { visit } = require('ast-types')
-const esprimaHarmony = require('esprima-harmony')
 const toSFCTemplate = require('vue-sfc-descriptor-to-string')
-const babelParser = require('@babel/parser')
+const babel7 = require('recast/parsers/babel')
 
 function completeDotVueExtension(filePath) {
   // read file
@@ -20,21 +19,15 @@ function completeDotVueExtension(filePath) {
   }
   // convert descriptor.script to ast
   const ast = parse(descriptor.script.content, {
-    parser: {
-      parse(source) {
-        return babelParser.parse(source, {
-          sourceType: 'module'
-        })
-      }
-    }
+    parser: babel7
   })
   // traverse ast to find component
   visit(ast, {
     visitObjectExpression(path) {
       const { properties } = path.node
-      const compsProperty = properties.find((p) => p.key.name === 'components')
-      if (compsProperty) {
-        componentNames = compsProperty.value.properties.map((p) => p.key.name)
+      const compsProperty = properties.find((p) => p.key?.name === 'components')
+      if (compsProperty?.value.properties?.length > 0) {
+        componentNames = compsProperty.value.properties?.map((p) => p.key.name)
       }
       this.traverse(path)
     }
