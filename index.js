@@ -17,11 +17,12 @@ console.log(`scanning ${dir}`)
 
 if (dir) {
   dir = resolve(process.cwd(), dir)
-  resolveDir(dir)
+  completeRecusively(dir)
 }
 
-function resolveDir(dir) {
+function completeRecusively(dir) {
   glob(`${dir}/**/*.vue`, (err, files) => {
+    files = files.filter(filePath => !filePath.includes('node_modules'))
     const total = files.length
     let failed = 0
     if (err) {
