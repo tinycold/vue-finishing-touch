@@ -7,9 +7,21 @@ const traverse = (ast) => {
   visit(ast, {
     visitObjectExpression(path) {
       const { properties } = path.node
-      const compsProperty = properties.find((p) => p.key?.name === 'components')
+      const compsProperty = properties.find((p) => p.type === 'ObjectProperty' && p.key.name === 'components')
       if (compsProperty?.value.properties?.length > 0) {
-        componentNames = compsProperty.value.properties?.map((p) => p.key.name)
+        componentNames = compsProperty.value.properties
+          ?.map((p) => {
+            let name
+            if (p.value.type === 'Identifier') {
+              name = p.value.name
+            } else if (p.value.type === 'MemberExpression') {
+              name = p.value.object.name
+            }
+            return name
+          })
+          .filter(p => p)
+        // stop traverse once components property found
+        return false
       }
       this.traverse(path)
     }
