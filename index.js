@@ -4,6 +4,7 @@ const { program } = require('commander')
 const { completeDotVueExtension } = require('./main.js')
 const { resolve } = require('path/posix')
 const glob = require('glob')
+const { getDeps, fromNodeModules } = require('path/deps.js')
 
 program.version(require('./package.json').version)
 
@@ -21,15 +22,21 @@ if (dir) {
 }
 
 function completeRecusively(dir) {
+  const deps = getDeps()
   glob(`${dir}/**/*.vue`, (err, files) => {
+    if (err) {
+      console.log(`ERROR: failed to read directory ${dir}`, err)
+      process.exit(-1)
+    }
     files = files.filter(filePath => !filePath.includes('node_modules'))
     const total = files.length
     let failed = 0
-    if (err) {
-      console.log(err)
-    }
     files.forEach(filePath => {
       try {
+        if (fromNodeModules(filePath, deps)) {
+          console.log(`INFO: file from node_modules ${filePath}`)
+          return
+        }
         completeDotVueExtension(filePath)
       } catch (err) {
         failed++

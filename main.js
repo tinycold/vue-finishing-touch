@@ -9,6 +9,10 @@ const { generate } = require('./ast/generate')
 function completeDotVueExtension(filePath) {
   const originTemplate = readFileSync(filePath, { encoding: 'utf-8' })
   const descriptor = toDescriptor(originTemplate)
+  if (!descriptor.script) {
+    console.log(`INFO: no script found ${filePath}`)
+    return
+  }
   const ast = toAST(descriptor.script.content)
   traverse(ast)
   const target = generate(ast)
