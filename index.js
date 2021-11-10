@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander')
-const { completeDotVueExtension } = require('./main.js')
+const { completeDotVueExtension } = require('./complete.js')
 const { resolve } = require('path/posix')
 const glob = require('glob')
 const { getDeps, fromNodeModules } = require('path/deps.js')
